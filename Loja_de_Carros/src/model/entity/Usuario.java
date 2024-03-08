@@ -1,19 +1,36 @@
 package model.entity;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Usuario {
+public class Usuario {
 	private String login;
 	private String senha;
 	private Permissao permissao;
+	private List<Carro> carros;
 	
 	public Usuario(String login, String senha) {
 		setLogin(login);
 		setSenha(senha);
 		setPermissao(Permissao.cliente);
+		setCarros(null);
 	}
 	
+	
+	
+	public List<Carro> getCarros() {
+		return carros;
+	}
+
+
+
+	public void setCarros(List<Carro> carros) {
+		this.carros = carros;
+	}
+
+
+
 	public Permissao getPermissao() {
 		return permissao;
 	}
