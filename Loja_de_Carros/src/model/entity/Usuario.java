@@ -3,7 +3,7 @@ package model.entity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Usuario {
+public abstract class Usuario {
 	private String login;
 	private String senha;
 	
@@ -44,8 +44,4 @@ public class Usuario {
 		return "Login: " + login + "\nSenha: " + senha;
 	}
 
-	public static void main(String []args) {
-		Usuario user = new Usuario("joaosales","joaosales1234");
-		System.out.println(user);
-	}
 }
