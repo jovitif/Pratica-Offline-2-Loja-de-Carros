@@ -1,12 +1,15 @@
 package model.entity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Usuario {
 	private String login;
 	private String senha;
 	
 	public Usuario(String login, String senha) {
-		this.login = login;
-		this.senha = senha;
+		setLogin(login);
+		setSenha(senha);
 	}
 	
 	public String getLogin() {
@@ -19,7 +22,21 @@ public class Usuario {
 		return senha;
 	}
 	public void setSenha(String senha) {
-		this.senha = senha;
+        String regex = "^(?=.*[0-9])"
+                       + "(?=.*[a-z])(?=.*[A-Z])"
+                       + "(?=.*[@#$%^&+=])"
+                       + "(?=\\S+$).{8,20}$";
+  
+        Pattern p = Pattern.compile(regex);
+ 
+ 
+        Matcher m = p.matcher(senha);
+        
+        if(m.matches()) {
+        	this.senha = senha;
+        }else {
+        	System.out.println("Senha Inválida");
+        }
 	}
 	
 	@Override
