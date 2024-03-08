@@ -1,0 +1,4 @@
+Carro [renavam=1224, nome=carrinho, categoria=economico, anoFabricacao=2099-04-25, qntDisponivel=122, preco=100.0],
+Carro [renavam=1224, nome=carrinho, categoria=economico, anoFabricacao=2099-04-25, qntDisponivel=122, preco=100.0],
+Carro [renavam=1224, nome=carrinho, categoria=economico, anoFabricacao=2099-04-25, qntDisponivel=122, preco=100.0],
+Carro [renavam=1224, nome=carrinho, categoria=economico, anoFabricacao=2099-04-25, qntDisponivel=122, preco=100.0]
