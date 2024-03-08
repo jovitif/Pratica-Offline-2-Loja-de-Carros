@@ -6,12 +6,26 @@ import java.util.regex.Pattern;
 public abstract class Usuario {
 	private String login;
 	private String senha;
+	private Permissao permissao;
 	
 	public Usuario(String login, String senha) {
 		setLogin(login);
 		setSenha(senha);
+		setPermissao(Permissao.cliente);
 	}
 	
+	public Permissao getPermissao() {
+		return permissao;
+	}
+
+
+
+	public void setPermissao(Permissao permissao) {
+		this.permissao = permissao;
+	}
+
+
+
 	public String getLogin() {
 		return login;
 	}
