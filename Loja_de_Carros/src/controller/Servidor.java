@@ -1,5 +1,7 @@
 package controller;
 
-public class Servidor {
+import model.entity.Carro;
 
+public class Servidor {
+	private Carro carros[];
 }
