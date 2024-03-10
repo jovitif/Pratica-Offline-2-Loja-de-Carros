@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.dao.database.CarrosDatabase;
 import model.entity.Carro;
 import model.entity.Categoria;
 import model.service.CarroBO;
@@ -34,15 +35,8 @@ public class ServidorCarro {
 	
 	public static void main(String []args) {
 		ServidorCarro server = new ServidorCarro(300,"");
-		Carro car = new Carro(1224, "fiat novo uno", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-		Carro car2 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-		Carro car3 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-		Carro car4 = new Carro(1224, "execult", Categoria.executivo,  LocalDate.of(2099, 04, 25), 1, 100.00);
-
-		carros.add(car);
-		carros.add(car2);
-		carros.add(car3);
-		carros.add(car4);
+		carros = CarrosDatabase.allCarros();
+		
 		carros.size();
 		System.out.println(CarroBO.getQntCarros(carros));
 		System.out.println(CarroBO.getAllByCategorie(Categoria.executivo, carros));

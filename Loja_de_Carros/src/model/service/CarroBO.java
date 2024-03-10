@@ -25,7 +25,7 @@ public class CarroBO {
 		int qnt = 0;
 		for(int i = 0; i < carros.size(); i++) {
 			if(categoria == carros.get(i).getCategoria()) {
-				qnt = qnt + carros.get(i).getQntDisponivel();
+				qnt++;
 			}
 		}
 		return qnt;

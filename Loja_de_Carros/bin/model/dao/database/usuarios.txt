@@ -1,0 +1,19 @@
+[
+
+INFORMAÇÕES DO USUARIO:
+Login: joaosales
+Senha: @Joaosales1234
+Tipo: cliente
+Carros: [], 
+
+INFORMAÇÕES DO USUARIO:
+Login: joaosales
+Senha: @Joaosales1234
+Tipo: cliente
+Carros: [], 
+
+INFORMAÇÕES DO USUARIO:
+Login: joaosales
+Senha: @Joaosales1234
+Tipo: cliente
+Carros: []]
