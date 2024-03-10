@@ -8,12 +8,12 @@ import model.entity.Carro;
 import model.entity.Categoria;
 import model.service.CarroBO;
 
-public class Servidor {
+public class ServidorCarro {
 	private int porta;
 	private String ip;
 	private static List<Carro> carros;
 	
-	public Servidor(int porta, String ip) {
+	public ServidorCarro(int porta, String ip) {
 		setPorta(porta);
 		setIp(ip);
 		carros = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Servidor {
 	}
 	
 	public static void main(String []args) {
-		Servidor server = new Servidor(300,"");
+		ServidorCarro server = new ServidorCarro(300,"");
 		Carro car = new Carro(1224, "fiat novo uno", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		Carro car2 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		Carro car3 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
