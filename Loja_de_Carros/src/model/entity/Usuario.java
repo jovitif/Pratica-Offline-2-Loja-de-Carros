@@ -19,6 +19,8 @@ public class Usuario {
 	
 	
 	
+	
+	
 	public List<Carro> getCarros() {
 		return carros;
 	}
@@ -69,10 +71,23 @@ public class Usuario {
         	System.out.println("Senha Inválida");
         }
 	}
-	
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "Login: " + login + "\nSenha: " + senha;
+		String info = "INFORMAÇÕES DO USUARIO:\n\nLogin: " + login + "\nSenha: " + senha + "\nTipo: " + permissao + "\nCarros: ";
+		if(carros == null) 
+			info = info + " esse usuario não possui nenhum carro";
+		else
+			info = info + carros.toString();
+		return info;
 	}
-
+	
+	public static void main(String []args) {
+		Usuario user = new Usuario("joaosales","@Joaosales1234");
+		System.out.println(user.toString());
+	}
 }

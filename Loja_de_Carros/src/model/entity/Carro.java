@@ -8,7 +8,7 @@ public class Carro {
 	private String nome;
 	private Categoria categoria;
 	private LocalDate anoFabricacao;
-	private int qntDisponivel;
+	private int qntDisponivel; //Talvez esse atributo seja excluido depois
 	private double preco;
 	
 	public Carro(int renavam, String nome, Categoria categoria, LocalDate anoFabricacao, int qntDisponivel, double preco) {

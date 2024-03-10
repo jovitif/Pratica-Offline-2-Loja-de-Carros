@@ -6,9 +6,7 @@ public class BaseBO<VO> implements BaseInterBO<VO> {
 	public void cadastrar(VO vo) throws Exception{
 		
 	}
-	public VO buscarPorId(VO vo) throws Exception{
-		return vo;
-	}
+
 	public List<VO> listar() throws Exception{
 		return null;
 	}
@@ -29,5 +27,13 @@ public class BaseBO<VO> implements BaseInterBO<VO> {
 	@Override
 	public boolean apagar(VO vo) throws Exception {
 		return false;
+	}
+	@Override
+	public VO buscarPorNome(VO vo) throws Exception {
+		return null;
+	}
+	@Override
+	public VO buscarPorRenavam(VO vo) throws Exception {
+		return null;
 	}
 }
