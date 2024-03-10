@@ -11,9 +11,11 @@ public class UsuariosDatabase {
 		List<Usuario> users = new ArrayList<>();
 		users.add(new Usuario("joaosales","@Joaosales1234", Permissao.cliente));
 		users.add(new Usuario("Tester","#Tester1234", Permissao.funcionario));
-		users.add(new Usuario("Baria","@Maria1234", Permissao.funcionario));
+		users.add(new Usuario("Maria","@Maria1234", Permissao.funcionario));
 		users.add(new Usuario("Batman","@Batman1234", Permissao.cliente));
 		users.add(new Usuario("SeuBarriga","@Barriguinha1234", Permissao.cliente));
+		users.add(new Usuario("Francismo","@Fran1234", Permissao.funcionario));
+
 		return users;
 	}
 }

@@ -8,6 +8,7 @@ import model.entity.Usuario;
 
 public class ServidorAuth {
 	private static List<Usuario> users;
+	
 	public ServidorAuth() {
 		users = new ArrayList<>();
 	}
