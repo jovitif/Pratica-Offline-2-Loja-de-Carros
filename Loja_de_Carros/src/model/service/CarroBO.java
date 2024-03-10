@@ -19,6 +19,25 @@ public class CarroBO {
 			}
 		}
 		return carrosByCategorie;
-		
+	}
+	
+	public static int GetQntCarrosByCategorie(Categoria categoria, List<Carro> carros) {
+		int qnt = 0;
+		for(int i = 0; i < carros.size(); i++) {
+			if(categoria == carros.get(i).getCategoria()) {
+				qnt++;
+			}
+		}
+		return qnt;
+	}
+	
+	public static boolean removeByName(String name, List<Carro> carros) {
+		for(int i = 0; i < carros.size(); i++) {
+			if(carros.get(i).getNome() == name) {
+				carros.remove(carros.get(i));
+				return true;
+			}
+		}
+		return false;
 	}
 }

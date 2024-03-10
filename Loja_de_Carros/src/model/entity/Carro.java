@@ -66,7 +66,7 @@ public class Carro {
 		Carro car = new Carro(1224, "fiat novo uno", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		Carro car2 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		Carro car3 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-
+		
 		System.out.print(car);
 
 		System.out.print(car2);

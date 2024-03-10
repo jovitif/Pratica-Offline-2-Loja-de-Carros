@@ -43,7 +43,12 @@ public class Servidor {
 		carros.add(car2);
 		carros.add(car3);
 		carros.add(car4);
+		carros.size();
 		System.out.println(CarroBO.getQntCarros(carros));
 		System.out.println(CarroBO.getAllByCategorie(Categoria.executivo, carros));
+		System.out.println(CarroBO.GetQntCarrosByCategorie(Categoria.economico, carros));
+		System.out.println(CarroBO.removeByName("execul", carros));
+		System.out.println(CarroBO.getAllByCategorie(Categoria.executivo, carros));
+
 	}
 }
