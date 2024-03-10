@@ -25,7 +25,7 @@ public class CarroBO {
 		int qnt = 0;
 		for(int i = 0; i < carros.size(); i++) {
 			if(categoria == carros.get(i).getCategoria()) {
-				qnt++;
+				qnt = qnt + carros.get(i).getQntDisponivel();
 			}
 		}
 		return qnt;
@@ -34,7 +34,9 @@ public class CarroBO {
 	public static boolean removeByName(String name, List<Carro> carros) {
 		for(int i = 0; i < carros.size(); i++) {
 			if(carros.get(i).getNome() == name) {
-				carros.remove(carros.get(i));
+				carros.get(i).setQntDisponivel(carros.get(i).getQntDisponivel() - 1);
+				if(carros.get(i).getQntDisponivel() == 0)
+					carros.remove(i);
 				return true;
 			}
 		}

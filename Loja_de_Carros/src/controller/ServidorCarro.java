@@ -37,7 +37,7 @@ public class ServidorCarro {
 		Carro car = new Carro(1224, "fiat novo uno", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		Carro car2 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		Carro car3 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-		Carro car4 = new Carro(1224, "execult", Categoria.executivo,  LocalDate.of(2099, 04, 25), 122, 100.00);
+		Carro car4 = new Carro(1224, "execult", Categoria.executivo,  LocalDate.of(2099, 04, 25), 1, 100.00);
 
 		carros.add(car);
 		carros.add(car2);
@@ -47,7 +47,7 @@ public class ServidorCarro {
 		System.out.println(CarroBO.getQntCarros(carros));
 		System.out.println(CarroBO.getAllByCategorie(Categoria.executivo, carros));
 		System.out.println(CarroBO.GetQntCarrosByCategorie(Categoria.economico, carros));
-		System.out.println(CarroBO.removeByName("execul", carros));
+		System.out.println(CarroBO.removeByName("execult", carros));
 		System.out.println(CarroBO.getAllByCategorie(Categoria.executivo, carros));
 
 	}
