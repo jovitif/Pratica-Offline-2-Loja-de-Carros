@@ -43,6 +43,16 @@ public class CarroBO {
 		return false;
 	}
 	
+	public static boolean removeByRenavam(int renavam,List<Carro> carros) {
+		for(int i = 0; i < carros.size(); i++) {
+			if(carros.get(i).getRenavam() == renavam) {
+				carros.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static Carro buscarByRenavam(int renavam, List<Carro> carros) {
 		for(int i = 0; i < carros.size(); i++) {
 			if(carros.get(i).getRenavam() == renavam) {
