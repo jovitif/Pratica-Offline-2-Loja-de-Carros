@@ -18,8 +18,15 @@ public class ServidorCarro {
 		setPorta(porta);
 		setIp(ip);
 		carros = new ArrayList<>();
+		this.rodar();
 	}
 	
+	private void rodar() {
+		
+	}
+
+
+
 	public int getPorta() {
 		return porta;
 	}

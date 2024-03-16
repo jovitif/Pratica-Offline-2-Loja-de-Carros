@@ -1,8 +1,13 @@
 package model.service;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
-public class BaseBO<VO> implements BaseInterBO<VO> {
+public class BaseBO<VO> implements BaseInterBO<VO>  {
+	public BaseBO() throws RemoteException {
+
+	}
+
 	public void cadastrar(VO vo) throws Exception{
 		
 	}
@@ -35,5 +40,11 @@ public class BaseBO<VO> implements BaseInterBO<VO> {
 	@Override
 	public VO buscarPorRenavam(VO vo) throws Exception {
 		return null;
+	}
+
+	@Override
+	public void cadastrarUsuario(String login, String senha) throws RemoteException {
+		System.out.println(login + " " + senha);
+		 
 	}
 }

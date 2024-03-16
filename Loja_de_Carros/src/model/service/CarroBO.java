@@ -42,4 +42,13 @@ public class CarroBO {
 		}
 		return false;
 	}
+	
+	public static Carro buscarByRenavam(int renavam, List<Carro> carros) {
+		for(int i = 0; i < carros.size(); i++) {
+			if(carros.get(i).getRenavam() == renavam) {
+				return carros.get(i);
+			}
+		}
+		return null;
+	}
 }

@@ -1,9 +1,17 @@
 package model.service;
 
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UsuarioBO {
+public interface UsuarioBO extends Remote{
+	
+    static void cadastrarUsuario(String login, String senha) throws RemoteException{
+    	System.out.println(login + " " + senha);
+    }
+
 	public static boolean validarSenha(String senha, String senha2) {
 		if(senha.equals(senha2))
 			return true;

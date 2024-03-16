@@ -2,6 +2,10 @@
 package model.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.service.CarroBO;
 
 public class Carro {
 	private int renavam;
@@ -63,12 +67,16 @@ public class Carro {
 	}
 	
 	public static void main(String []args) {
-		Carro car = new Carro(1224, "fiat novo uno", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-		Carro car2 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
-		Carro car3 = new Carro(1224, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
+		Carro car = new Carro(413441, "fiat novo uno", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
+		Carro car2 = new Carro(51353, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
+		Carro car3 = new Carro(13513553, "chevrolet onix", Categoria.economico,  LocalDate.of(2099, 04, 25), 122, 100.00);
 		
-		System.out.print(car);
-
-		System.out.print(car2);
+		List<Carro> carros = new ArrayList();
+	
+		carros.add(car);
+		carros.add(car2);
+		carros.add(car3);
+		
+		System.out.println(CarroBO.buscarByRenavam(13513553, carros));
 	}
 }
