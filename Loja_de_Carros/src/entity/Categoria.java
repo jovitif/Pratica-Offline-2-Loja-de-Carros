@@ -1,4 +1,4 @@
-package model.entity;
+package Pratica01.entity;
 
 public enum Categoria {
 	economico,

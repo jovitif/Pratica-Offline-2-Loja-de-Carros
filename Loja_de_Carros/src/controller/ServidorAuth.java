@@ -1,43 +1,68 @@
-package controller;
+package Pratica01.controller;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import Pratica01.entity.Carro;
+import Pratica01.entity.Permissao;
+import Pratica01.entity.Usuario;
+import Pratica01.service.UsuarioService;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import model.dao.database.UsuariosDatabase;
-import model.entity.Usuario;
+public class ServidorAuth implements UsuarioService {
+    private List<Usuario> users;
 
-public class ServidorAuth {
-	private static List<Usuario> users;
-	Socket conexao;
-	String ip;
-	int porta;
-	
-	public ServidorAuth(int porta, String ip) {
-		users = new ArrayList<>();
-		this.porta = porta;
-		this.ip = ip;
-		this.rodar();
-	}
-	
-	private void rodar() {
-		try {
-			conexao = new Socket(ip, porta);
-			System.out.println("Conectado ao servidor " + ip + ", na porta: " + porta);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    public ServidorAuth() {
+        users = allUsers();
+    }
+
+    public static List<Usuario> allUsers() {
+        List<Usuario> users = new ArrayList<>();
+        users.add(new Usuario("joaosales", "@Joaosales1234", Permissao.funcionario));
+        users.add(new Usuario("Tester", "#Tester1234", Permissao.cliente));
+        users.add(new Usuario("Maria", "@Maria1234", Permissao.funcionario));
+        users.add(new Usuario("Batman", "@Batman1234", Permissao.cliente));
+        users.add(new Usuario("SeuBarriga", "@Barriguinha1234", Permissao.cliente));
+        users.add(new Usuario("Francismo", "@Fran1234",Permissao.funcionario));
+        return users;
+    }
+    
+    @Override
+	public Usuario cadastrado(String login, String senha, Permissao permissao) throws RemoteException {
+		System.out.println("Cadastrando um usuário...");
+		for(int i = 0; i < users.size(); i++) {
+			if(users.get(i).getLogin().equals(login))
+				return null;
 		}
+		Usuario user = new Usuario(login, senha, permissao);
+		users.add(user);
+		return user;
+	}
 
+	@Override
+	public Usuario comprarCarro(Carro carro, String comprador) throws RemoteException{
+		for(int i = 0; i < users.size(); i++) {
+			if(users.get(i).getLogin().equals(comprador)) {
+				users.get(i).adicionarCarro(carro);
+				return users.get(i);
+			}
+		}
+		return null;
 	}
-	public static void main(String []args) {
-		users = UsuariosDatabase.allUsers();
-		System.out.println(users.toString());
-		new ServidorAuth(1993, "127.0.0.2");
-	}
+
+    
+    @Override
+    public Usuario autenticado(String login, String senha) throws RemoteException {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getLogin().equals(login) && users.get(i).getSenha().equals(senha)) {
+                return users.get(i);
+            }
+        }
+        return null;
+    }
 }
+

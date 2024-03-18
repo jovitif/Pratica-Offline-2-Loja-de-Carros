@@ -1,56 +1,217 @@
-package controller;
+package Pratica01.controller;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.Scanner;
 
-import model.service.UsuarioBO;
+import Pratica01.entity.Carro;
+import Pratica01.entity.Permissao;
+import Pratica01.entity.Usuario;
+import Pratica01.service.CarroService;
+import Pratica01.service.UsuarioService;
 
 public class Cliente {
-	public static Scanner scanner = new Scanner(System.in);
+	static Usuario user;
+	static String login;
+	static boolean atualizado = true;
+	static String senha;
+    private static Scanner scanner = new Scanner(System.in);
+	static int porta = 50005;
+	
+	public static void menuInicial() {
+		System.out.print("Digite seu login:");
+		login = scanner.next();
+		System.out.print("Digite a sua senha:");
+		senha = scanner.next();
+		conectar();
+	}
+	
+	public static void conectar() {
+		config();
+		try {
+			Registry registro = LocateRegistry.getRegistry("localhost", porta);
 
-	public Cliente() {
+			UsuarioService stubObjRemotoCliente = (UsuarioService) registro.lookup("UsuarioService");
+			user = stubObjRemotoCliente.autenticado(login, senha);
+
+			if (user != null) {
+				if (user.getPermissao().equals(Permissao.funcionario)) {
+					menuFuncionario();
+
+				} else {
+					menuCliente();
+				}
+			} else {
+				System.out.println("Falha ao autenticar");
+			}
+
+			scanner.close();
+		} catch (Exception e) {
+			System.err.println("Cliente: " + e.toString());
+			e.printStackTrace();
+		}
+	}
+	
+	private Cliente() {
+	}
+
+	private static void config() {
+		System.setProperty("java.security.policy", "java.policy");
+	}
+
+	public static void listar() {
+		try {
+			System.out.println("listando...");
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+
+			List<Carro> listaCarros = stubObjRemotoCliente.listarCarros();
+			for (Carro carro : listaCarros) {
+				System.out.println(carro.toString());
+			}
+		} catch (Exception e) {
+			System.err.println("Erro ao listar carros: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public static void buscar() {
+		System.out.print("Digite o renavam:");
+		int renavam = scanner.nextInt();
+		try {
+			System.out.println("buscando por renavam...");
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+			System.out.println(stubObjRemotoCliente.buscarRenavam(renavam));
+		} catch (Exception e) {
+			System.err.println("Erro ao buscar carro: " + e.getMessage());
+			e.printStackTrace();
+		}	
+	}
+	
+	public static void quantidade() {
+		try {
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+			System.out.println("O sistema possui " + stubObjRemotoCliente.QntCarro() + " carros");
+		} catch (Exception e) {
+			System.err.println("Erro ao buscar carro: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public static void comprar() {
+		try {
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+			List<Carro> listaCarros = stubObjRemotoCliente.listarCarros();
+			for (Carro carro : listaCarros) {
+				System.out.println(carro.toString());
+			}
+			System.out.print("Digite o renavam do carro que deseja comprar: ");
+			int renavam = scanner.nextInt();
+			Carro comprado = stubObjRemotoCliente.buscarRenavam(renavam);
+			UsuarioService stubObjRemotoCliente2 = (UsuarioService) registro.lookup("UsuarioService");
+			stubObjRemotoCliente2.comprarCarro(comprado, user.getLogin());
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+	}
+	
+	public static void adicionar() {
+		
+	}
+	
+	public static void remover() {
+		try {
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+			List<Carro> listaCarros = stubObjRemotoCliente.listarCarros();
+			for (Carro carro : listaCarros) {
+				System.out.println(carro.toString());
+			}
+			System.out.print("Digite o renavam do carro que deseja remover: ");
+			int renavam = scanner.nextInt();
+			stubObjRemotoCliente.removerCarro(renavam);
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+	}
+	
+	public static void menuFuncionario() throws NotBoundException {
+		if(atualizado == true) {
+			System.out.println(user);	
+		}
+		System.out.println("Deseja realizar quais operações ?");
+		System.out.println("[1] Listar");
+		System.out.println("[2] Pesquisar");
+		System.out.println("[3] Exibir quantidade");
+		System.out.println("[4] Comprar carro");
+		System.out.println("[5] add carro");
+		System.out.println("[6] remover carro");
+		System.out.println("[7] editar carro");
+		System.out.println("[8] Sair do sistema");
+		System.out.print("OPÇÃO=");
+		Scanner scanner = new Scanner(System.in);
+		int opcao = scanner.nextInt();
+		switch (opcao) {
+		case 1:
+			listar();
+			menuFuncionario();
+			break;
+		case 2:
+			buscar();
+			menuFuncionario();
+			break;
+		case 3:
+			quantidade();
+			menuFuncionario();
+			break;
+		case 4:	
+			comprar();
+			menuFuncionario();
+			break;
+		case 5:
+			adicionar();
+			menuFuncionario();
+			break;
+		case 6:
+			remover();	
+			menuFuncionario();
+			break;
+		case 7:
+			editar();
+			menuFuncionario();
+			break;
+		case 8:
+			System.out.println("Realizando logout...");
+			user = null;
+			menuInicial();
+			break;
+		default:
+			System.out.println("Nenhuma opção valida foi digitada...");
+		}
+	}
+
+	private static void editar() {
+		// TODO Auto-generated method stub
 		
 	}
 
-	 public static void mostrarMenuInicial() {
-	        System.out.println("Seja bem vindo a loja de carros");
-	        System.out.println("Deseja se cadastrar no sistema [1] ou realizar login [2] ou fechar[0]?");
-	        System.out.print("Escolha: ");
-	        short escolha;
-	        escolha = scanner.nextShort();
-	        if (escolha == 1) {
-	            System.out.print("Digite o login: ");
-	            String login = scanner.next();
-	            System.out.print("Digite a senha: ");
-	            String senha = scanner.next();
-	            System.out.print("Repita a senha: ");
-	            String repitaSenha = scanner.next();
-	            if (senha.equals(repitaSenha)) {
-	                
-	                 //   usuarioService.cadastrarUsuario(login, senha);
-	                    System.out.println("Usuário cadastrado com sucesso!");
-	              
-	            } else {
-	                System.out.println("As senhas não coincidem.");
-	            }
-	        } else if (escolha == 2) {
-	            System.out.print("Digite o login: ");
-	            String login = scanner.next();
-	            System.out.print("Digite a senha: ");
-	            String senha = scanner.next();
-	            // Realizar login
-	        } else {
-	            System.out.println("Nenhum foi selecionado");
-	        }
-	    }
+	public static void menuCliente() {
+		System.out.println("Usuario: " + user);
+		System.out.println("Deseja realizar quais operações ?");
+		System.out.println("[1] Listar");
+		System.out.println("[2] Pesquisar");
+		System.out.println("[3] Exibir quantidade");
+		System.out.println("[4] Comprar carro");
+	}
 
 	public static void main(String[] args) {
-		
+		menuInicial();
 	}
 }
