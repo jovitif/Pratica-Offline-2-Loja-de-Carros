@@ -5,23 +5,20 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import entity.Carro;
+import entity.Categoria;
 
 //interface do objeto do servidor
 public interface CarroService extends Remote{
 
     List<Carro> listarCarros() throws RemoteException;
 	//adicionar um carro
-	//apagar um carro
-	//listar carros
-	//pesquisar (consultar) carro
+    String adicionarCarro(long renavam, String nome, double preco, Categoria categoria, int ano) throws RemoteException;
 	//alterar atributos de carro
-	//atualizar listagem de carros enviados aos clientes conectados
-	//exibir quantidade de carros
 
 	Carro buscarRenavam(long renavam) throws RemoteException;
 	int QntCarro() throws RemoteException;
 
-	void removerCarro(int renavam)throws RemoteException;
+	void removerCarro(long renavam)throws RemoteException;
 
 	
 	

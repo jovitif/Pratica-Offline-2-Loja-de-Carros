@@ -5,10 +5,13 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import entity.Carro;
+import entity.Categoria;
 import entity.Permissao;
 import entity.Usuario;
 import service.CarroService;
@@ -20,7 +23,7 @@ public class Cliente {
 	static String login;
 	static boolean atualizado = true;
 	static String senha;
-    private static Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
 	static int porta = 50005;
 	
 	public static void menuInicial() {
@@ -41,7 +44,7 @@ public class Cliente {
 
 			if (user != null) {
 				if (user.getPermissao().equals(Permissao.funcionario)) {
-					menuFuncionario();
+					menuFuncionario(atualizado);
 
 				} else {
 					menuCliente();
@@ -118,19 +121,66 @@ public class Cliente {
 				System.out.println(carro.toString());
 			}
 			System.out.print("Digite o renavam do carro que deseja comprar: ");
-			int renavam = scanner.nextInt();
+			long renavam = scanner.nextLong();
 			Carro comprado = stubObjRemotoCliente.buscarRenavam(renavam);
+			 registro = LocateRegistry.getRegistry("localhost", 50005);
 			UsuarioService stubObjRemotoCliente2 = (UsuarioService) registro.lookup("UsuarioService");
 			stubObjRemotoCliente2.comprarCarro(comprado, user.getLogin());
+			stubObjRemotoCliente.removerCarro(comprado.getRenavam());
+			conectar();
 		} catch (Exception e) {
 			System.out.print(e);
 		}
 	}
 	
 	public static void adicionar() {
-		
+		System.out.print("Digite o número do Renavam:");
+		long renavam = scanner.nextLong();	
+		System.out.print("Digite o nome do carro:");
+		String nome = scanner.nextLine();
+		System.out.print("Digite o preço em R$ do carro:");
+        double preco = lerPrecoFormatado();
+		System.out.print("Digite o ano de fabricação do carro:");
+		int ano = scanner.nextInt();
+		System.out.print("Qual é a categoria do carro (?)\n[1] Economico\n[2] Intermediario\n[3] Executivo\nOpção:");
+		int opcao = scanner.nextInt();
+		Categoria categoria = null;
+		switch (opcao) {
+		case 1: 
+			categoria = Categoria.economico;
+			break;
+		case 2:
+			categoria = Categoria.intermediario;
+			break;
+		case 3:
+			categoria = Categoria.executivo;
+			break;
+		default:
+			System.out.println("Opção invalida");
+			adicionar();
+		}
+		try {
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+			String saida = stubObjRemotoCliente.adicionarCarro(renavam, nome, preco, categoria, ano);
+			System.out.println(saida);
+		} catch (Exception e) {
+			System.err.println("Erro ao buscar carro: " + e.getMessage());
+			e.printStackTrace();
+		}	
 	}
 	
+	 private static double lerPrecoFormatado() {
+	        while (true) {
+	            try {
+	                return scanner.nextDouble();
+	            } catch (InputMismatchException e) {
+	                System.out.print("Formato de preço inválido. Digite novamente:");
+	                scanner.next(); // Limpa o buffer
+	            }
+	        }
+	    }
+
 	public static void remover() {
 		try {
 			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
@@ -147,7 +197,7 @@ public class Cliente {
 		}
 	}
 	
-	public static void menuFuncionario() throws NotBoundException {
+	public static void menuFuncionario(boolean atualizado) throws NotBoundException {
 		if(atualizado == true) {
 			System.out.println(user);	
 		}
@@ -166,31 +216,38 @@ public class Cliente {
 		switch (opcao) {
 		case 1:
 			listar();
-			menuFuncionario();
+			atualizado = false;
+			menuFuncionario(atualizado);
 			break;
 		case 2:
 			buscar();
-			menuFuncionario();
+			atualizado = false;
+			menuFuncionario(atualizado);
 			break;
 		case 3:
 			quantidade();
-			menuFuncionario();
+			atualizado = false;
+			menuFuncionario(atualizado);
 			break;
 		case 4:	
 			comprar();
-			menuFuncionario();
+			atualizado = true;
+			menuFuncionario(atualizado);
 			break;
 		case 5:
 			adicionar();
-			menuFuncionario();
+			atualizado = false;
+			menuFuncionario(atualizado);
 			break;
 		case 6:
 			remover();	
-			menuFuncionario();
+			atualizado = false;
+			menuFuncionario(atualizado);
 			break;
 		case 7:
 			editar();
-			menuFuncionario();
+			atualizado = false;
+			menuFuncionario(atualizado);
 			break;
 		case 8:
 			System.out.println("Realizando logout...");

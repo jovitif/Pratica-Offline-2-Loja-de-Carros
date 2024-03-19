@@ -56,12 +56,22 @@ public class ServidorCarros implements CarroService {
 		return carros.size();
 	}
 	@Override
-	public void removerCarro(int renavam) throws RemoteException {
+	public void removerCarro(long renavam) throws RemoteException {
 		for(int i = 0; i < carros.size(); i++) {
 			if(carros.get(i).getRenavam() == renavam) {
 				carros.remove(i);
 			}
 		}
+	}
+	@Override
+	public String adicionarCarro(long renavam, String nome, double preco, Categoria categoria, int ano) throws RemoteException {
+		for(int i = 0; i < carros.size(); i++){
+			if(carros.get(i).getRenavam() == renavam)
+				return "O renavam digitado já foi utilizado\n";
+		}
+		Carro carro = new Carro(renavam, nome, categoria,ano, preco);
+		carros.add(carro);
+		return "O carro foi adicionado: " + carro.toString();
 	}
 
 }
