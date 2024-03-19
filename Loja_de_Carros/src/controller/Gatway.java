@@ -1,4 +1,4 @@
-package Pratica01.controller;
+package controller;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -8,10 +8,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import Pratica01.entity.Carro;
-import Pratica01.entity.Usuario;
-import Pratica01.service.CarroService;
-import Pratica01.service.UsuarioService;
+import entity.Carro;
+import entity.Usuario;
+import service.CarroService;
+import service.UsuarioService;
 
 public class Gatway {
 	private static final int PORTA_AUTH = 50005;

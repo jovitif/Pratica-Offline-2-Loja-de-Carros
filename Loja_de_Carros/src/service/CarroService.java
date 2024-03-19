@@ -1,10 +1,10 @@
-package Pratica01.service;
+package service;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import Pratica01.entity.Carro;
+import entity.Carro;
 
 //interface do objeto do servidor
 public interface CarroService extends Remote{

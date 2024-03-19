@@ -1,4 +1,4 @@
-package Pratica01.controller;
+package controller;
 
 import java.nio.channels.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -8,10 +8,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import Pratica01.entity.Carro;
-import Pratica01.entity.Categoria;
-import Pratica01.entity.Usuario;
-import Pratica01.service.CarroService;
+import entity.Carro;
+import entity.Categoria;
+import entity.Usuario;
+import service.CarroService;
 
 public class ServidorCarros implements CarroService {
 	List<Carro> carros;

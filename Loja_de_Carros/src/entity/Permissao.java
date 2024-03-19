@@ -1,4 +1,4 @@
-package Pratica01.entity;
+package entity;
 
 public enum Permissao {
 	cliente,

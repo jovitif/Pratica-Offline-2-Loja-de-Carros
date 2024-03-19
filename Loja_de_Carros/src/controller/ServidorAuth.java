@@ -1,9 +1,9 @@
-package Pratica01.controller;
+package controller;
 
-import Pratica01.entity.Carro;
-import Pratica01.entity.Permissao;
-import Pratica01.entity.Usuario;
-import Pratica01.service.UsuarioService;
+import entity.Carro;
+import entity.Permissao;
+import entity.Usuario;
+import service.UsuarioService;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

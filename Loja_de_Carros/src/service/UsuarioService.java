@@ -1,11 +1,11 @@
-package Pratica01.service;
+package service;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Pratica01.entity.Carro;
-import Pratica01.entity.Permissao;
-import Pratica01.entity.Usuario;
+import entity.Carro;
+import entity.Permissao;
+import entity.Usuario;
 
 public interface UsuarioService extends Remote {
 	Usuario autenticado(String login, String senha) throws RemoteException;

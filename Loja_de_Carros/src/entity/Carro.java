@@ -1,4 +1,4 @@
-package Pratica01.entity;
+package entity;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;

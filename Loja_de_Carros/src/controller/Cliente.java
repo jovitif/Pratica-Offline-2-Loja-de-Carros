@@ -1,4 +1,4 @@
-package Pratica01.controller;
+package controller;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -8,11 +8,12 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Scanner;
 
-import Pratica01.entity.Carro;
-import Pratica01.entity.Permissao;
-import Pratica01.entity.Usuario;
-import Pratica01.service.CarroService;
-import Pratica01.service.UsuarioService;
+import entity.Carro;
+import entity.Permissao;
+import entity.Usuario;
+import service.CarroService;
+import service.UsuarioService;
+
 
 public class Cliente {
 	static Usuario user;
@@ -202,14 +203,47 @@ public class Cliente {
 		
 	}
 
-	public static void menuCliente() {
-		System.out.println("Usuario: " + user);
+	public static void menuCliente() throws NotBoundException {
+		if(atualizado == true) {
+			System.out.println(user);	
+		}
 		System.out.println("Deseja realizar quais operações ?");
 		System.out.println("[1] Listar");
 		System.out.println("[2] Pesquisar");
 		System.out.println("[3] Exibir quantidade");
 		System.out.println("[4] Comprar carro");
+		System.out.println("[5] Sair do sistema");
+		System.out.print("OPÇÃO=");
+		Scanner scanner = new Scanner(System.in);
+		int opcao = scanner.nextInt();
+		switch (opcao) {
+		case 1:
+			listar();
+			menuFuncionario();
+			break;
+		case 2:
+			buscar();
+			menuFuncionario();
+			break;
+		case 3:
+			quantidade();
+			menuFuncionario();
+			break;
+		case 4:	
+			comprar();
+			menuFuncionario();
+			break;
+		case 5:
+			System.out.println("Realizando logout...");
+			user = null;
+			menuInicial();
+			break;
+			
+		default:
+			System.out.println("Nenhuma opção valida foi digitada...");
+		}
 	}
+
 
 	public static void main(String[] args) {
 		menuInicial();
