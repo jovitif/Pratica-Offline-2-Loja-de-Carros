@@ -5,24 +5,24 @@ import java.text.DecimalFormat;
 
 public class Carro implements Serializable {
     private static final long serialVersionUID = 1L;
-	private int renavam;
+	private long renavam;
 	private String nome;
 	private Categoria categoria;
 	private int anoFabricacao;
 	private double preco;
 	
 	
-	public Carro(int renavam, String nome,Categoria categoria,int anoFabricacao, double preco) {
-		this.renavam = renavam;
-		this.nome = nome;
-		this.setCategoria(categoria);
-		this.setAnoFabricacao(anoFabricacao);
-		this.preco = preco;
+	public Carro(long renavam, String nome,Categoria categoria,int anoFabricacao, double preco) {
+		setRenavam(renavam);
+		setNome(nome);
+		setCategoria(categoria);
+		setAnoFabricacao(anoFabricacao);
+		setPreco(preco);
 	}
-	public int getRenavam() {
+	public long getRenavam() {
 		return renavam;
 	}
-	public void setRenavam(int renavam) {
+	public void setRenavam(long renavam) {
 		this.renavam = renavam;
 	}
 	public String getNome() {

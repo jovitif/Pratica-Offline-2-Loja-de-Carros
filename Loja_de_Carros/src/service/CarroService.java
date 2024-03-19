@@ -18,7 +18,7 @@ public interface CarroService extends Remote{
 	//atualizar listagem de carros enviados aos clientes conectados
 	//exibir quantidade de carros
 
-	Carro buscarRenavam(int renavam) throws RemoteException;
+	Carro buscarRenavam(long renavam) throws RemoteException;
 	int QntCarro() throws RemoteException;
 
 	void removerCarro(int renavam)throws RemoteException;

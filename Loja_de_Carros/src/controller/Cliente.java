@@ -82,12 +82,16 @@ public class Cliente {
 	
 	public static void buscar() {
 		System.out.print("Digite o renavam:");
-		int renavam = scanner.nextInt();
+		long renavam = scanner.nextLong();
 		try {
-			System.out.println("buscando por renavam...");
+			System.out.println("buscando por renavam...\n");
 			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
 			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			System.out.println(stubObjRemotoCliente.buscarRenavam(renavam));
+			Carro buscado = stubObjRemotoCliente.buscarRenavam(renavam);
+			if(buscado != null)
+				System.out.println(buscado);
+			else
+				System.out.println("O renavam digitado não foi registado em nenhum carro.\n");
 		} catch (Exception e) {
 			System.err.println("Erro ao buscar carro: " + e.getMessage());
 			e.printStackTrace();
