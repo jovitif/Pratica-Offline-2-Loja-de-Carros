@@ -219,24 +219,24 @@ public class Cliente {
 		switch (opcao) {
 		case 1:
 			listar();
-			menuFuncionario();
+			menuCliente();
 			break;
 		case 2:
 			buscar();
-			menuFuncionario();
+			menuCliente();
 			break;
 		case 3:
 			quantidade();
-			menuFuncionario();
+			menuCliente();
 			break;
 		case 4:	
 			comprar();
-			menuFuncionario();
+			menuCliente();
 			break;
 		case 5:
 			System.out.println("Realizando logout...");
 			user = null;
-			menuInicial();
+			menuCliente();
 			break;
 			
 		default:
