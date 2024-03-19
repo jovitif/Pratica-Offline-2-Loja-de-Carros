@@ -236,7 +236,7 @@ public class Cliente {
 		case 5:
 			System.out.println("Realizando logout...");
 			user = null;
-			menuCliente();
+			menuInicial();
 			break;
 			
 		default:
