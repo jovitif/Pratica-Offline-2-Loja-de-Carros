@@ -26,13 +26,14 @@ public class Cliente {
     static Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
 	static int porta = 50005;
 	
-	public static void menuInicial() {
+	public static void menuLogin() {
 		System.out.print("Digite seu login:");
 		login = scanner.next();
 		System.out.print("Digite a sua senha:");
 		senha = scanner.next();
 		conectar();
 	}
+	
 	
 	public static void conectar() {
 		config();
@@ -252,7 +253,7 @@ public class Cliente {
 		case 8:
 			System.out.println("Realizando logout...");
 			user = null;
-			menuInicial();
+			menuLogin();
 			break;
 		default:
 			System.out.println("Nenhuma opção valida foi digitada...");
@@ -260,8 +261,50 @@ public class Cliente {
 	}
 
 	private static void editar() {
-		// TODO Auto-generated method stub
-		
+		System.out.print("Digite o renavam do carro que deseja editar:");
+		long renavam = scanner.nextLong();
+		try {
+			System.out.println("buscando por renavam...\n");
+			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+			Carro buscado = stubObjRemotoCliente.buscarRenavam(renavam);
+			if(buscado != null) {
+				System.out.println(buscado);
+				System.out.print("Digite o nome do carro:");
+				String nome = scanner.nextLine();
+				System.out.print("Digite o preço em R$ do carro:");
+		        double preco = lerPrecoFormatado();
+				System.out.print("Digite o ano de fabricação do carro:");
+				int ano = scanner.nextInt();
+				System.out.print("Qual é a categoria do carro (?)\n[1] Economico\n[2] Intermediario\n[3] Executivo\nOpção:");
+				int opcao = scanner.nextInt();
+				Categoria categoria = null;
+				switch (opcao) {
+				case 1: 
+					categoria = Categoria.economico;
+					break;
+				case 2:
+					categoria = Categoria.intermediario;
+					break;
+				case 3:
+					categoria = Categoria.executivo;
+					break;
+				default:
+					System.out.println("Opção invalida");
+					editar();
+				}
+				Carro editado = stubObjRemotoCliente.buscarRenavam(renavam);
+				if(editado != null)
+					System.out.println("Carro editado\n" + editado);
+				else
+					System.out.println("O carro não pode ser editado\n");
+			}
+			else
+				System.out.println("O renavam digitado não foi registado em nenhum carro.\n");
+		} catch (Exception e) {
+			System.err.println("Erro ao buscar carro: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public static void menuCliente() throws NotBoundException {
@@ -297,16 +340,34 @@ public class Cliente {
 		case 5:
 			System.out.println("Realizando logout...");
 			user = null;
-			menuInicial();
+			menuLogin();
 			break;
 			
 		default:
 			System.out.println("Nenhuma opção valida foi digitada...");
 		}
 	}
+	
+	void menuPrincipal() {
+		System.out.println("Bem vindo a loja de carros.");
+		System.out.println("[1] Realizar o cadastro");
+		System.out.println("[2] Realizar o login");
+		System.out.print("Opção:");
+		int opcao = scanner.nextInt();
+		switch(opcao) {
+		case 1:
+			break;
+		case 2:
+			menuLogin();
+			break;
+		default:
+			System.out.println("Opção digitada é invalida");
+			menuPrincipal();
+		}
+	}
 
 
 	public static void main(String[] args) {
-		menuInicial();
+		menuLogin();
 	}
 }

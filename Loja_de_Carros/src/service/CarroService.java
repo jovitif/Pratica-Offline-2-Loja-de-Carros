@@ -14,7 +14,7 @@ public interface CarroService extends Remote{
 	//adicionar um carro
     String adicionarCarro(long renavam, String nome, double preco, Categoria categoria, int ano) throws RemoteException;
 	//alterar atributos de carro
-
+    Carro editarCarro(long renavam, String nome, double preco, Categoria categoria, int ano) throws RemoteException;
 	Carro buscarRenavam(long renavam) throws RemoteException;
 	int QntCarro() throws RemoteException;
 

@@ -73,5 +73,19 @@ public class ServidorCarros implements CarroService {
 		carros.add(carro);
 		return "O carro foi adicionado: " + carro.toString();
 	}
+	@Override
+	public Carro editarCarro(long renavam, String nome, double preco, Categoria categoria, int ano)
+			throws RemoteException {
+		for(int i = 0; i < carros.size(); i++) {
+			if(carros.get(i).getRenavam() == renavam) {
+				carros.get(i).setAnoFabricacao(ano);
+				carros.get(i).setCategoria(categoria);
+				carros.get(i).setNome(nome);
+				carros.get(i).getPreco();
+				return carros.get(i);
+			}
+		}
+		return null;
+	}
 
 }
