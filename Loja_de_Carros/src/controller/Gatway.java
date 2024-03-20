@@ -1,15 +1,8 @@
 package controller;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
-
-import entity.Carro;
-import entity.Usuario;
 import service.CarroService;
 import service.UsuarioService;
 

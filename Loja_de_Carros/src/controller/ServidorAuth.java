@@ -4,12 +4,7 @@ import entity.Carro;
 import entity.Permissao;
 import entity.Usuario;
 import service.UsuarioService;
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

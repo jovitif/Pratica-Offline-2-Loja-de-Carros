@@ -1,17 +1,11 @@
 package controller;
 
-import java.nio.channels.AlreadyBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import entity.Carro;
 import entity.Categoria;
-import entity.Usuario;
 import service.CarroService;
 
 public class ServidorCarros implements CarroService {
