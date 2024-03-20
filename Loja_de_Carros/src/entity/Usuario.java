@@ -45,7 +45,7 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		String menuUsuario = "Seja bem-vindo " + login + "\n";
+		String menuUsuario = "\nSeja bem-vindo " + login + "\n";
 		menuUsuario = menuUsuario + "Nível de acesso: ";
 		if(permissao.equals(permissao.funcionario)) {
 			menuUsuario = menuUsuario + "funcionário\n";

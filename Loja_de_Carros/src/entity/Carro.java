@@ -44,11 +44,11 @@ public class Carro implements Serializable {
 	    String carro = "\n" + nome + "\nCódigo renavam: " + renavam + "\nPreço: " + df.format(preco) + " R$\n" + "Ano de fabricação: " + anoFabricacao + "\nCategoria: ";
 	    
 	    if (categoria.equals(categoria.economico)) {
-	        carro = carro + " Econômico";
+	        carro = carro + " Econômico\n";
 	    } else if (categoria.equals(categoria.executivo)) {
-	        carro = carro + " Executivo";
+	        carro = carro + " Executivo\n";
 	    } else {
-	        carro = carro + "Intermediário";
+	        carro = carro + "Intermediário\n";
 	    }
 	    
 	    return carro;

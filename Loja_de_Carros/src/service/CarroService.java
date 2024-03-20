@@ -18,9 +18,7 @@ public interface CarroService extends Remote{
 	Carro buscarRenavam(long renavam) throws RemoteException;
 	int QntCarro() throws RemoteException;
 
-	void removerCarro(long renavam)throws RemoteException;
+	Carro removerCarro(long renavam)throws RemoteException;
 
-	
-	
 	
 }

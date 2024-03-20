@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.geom.GeneralPath;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,18 +11,13 @@ public class Gatway {
 	private static final int PORTA_AUTH = 50005;
 	private static final int PORTA_CARRO = 50006;
 
-	public Gatway() {
-	}
-
 	public static void config() {
 		System.setProperty("java.rmi.server.hostname", "127.0.0.1");
 		System.setProperty("java.security.policy", "java.policy");
 
 	}
 	
-
-
-	public static void main(String[] args) {
+	private static void init() {
 		config();
 		try {
 			ServidorAuth servidorAuth = new ServidorAuth();
@@ -43,5 +39,11 @@ public class Gatway {
 			System.err.println("Erro ao iniciar os servidores: " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+
+
+	public static void main(String[] args) {
+		init();
 	}
 }
