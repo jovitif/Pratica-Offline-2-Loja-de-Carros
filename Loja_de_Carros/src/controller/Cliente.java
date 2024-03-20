@@ -261,51 +261,53 @@ public class Cliente {
 	}
 
 	private static void editar() {
-		System.out.print("Digite o renavam do carro que deseja editar:");
-		long renavam = scanner.nextLong();
-		try {
-			System.out.println("buscando por renavam...\n");
-			Registry registro = LocateRegistry.getRegistry("localhost", 50006);
-			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			Carro buscado = stubObjRemotoCliente.buscarRenavam(renavam);
-			if(buscado != null) {
-				System.out.println(buscado);
-				System.out.print("Digite o nome do carro:");
-				String nome = scanner.nextLine();
-				System.out.print("Digite o preço em R$ do carro:");
-		        double preco = lerPrecoFormatado();
-				System.out.print("Digite o ano de fabricação do carro:");
-				int ano = scanner.nextInt();
-				System.out.print("Qual é a categoria do carro (?)\n[1] Economico\n[2] Intermediario\n[3] Executivo\nOpção:");
-				int opcao = scanner.nextInt();
-				Categoria categoria = null;
-				switch (opcao) {
-				case 1: 
-					categoria = Categoria.economico;
-					break;
-				case 2:
-					categoria = Categoria.intermediario;
-					break;
-				case 3:
-					categoria = Categoria.executivo;
-					break;
-				default:
-					System.out.println("Opção invalida");
-					editar();
-				}
-				Carro editado = stubObjRemotoCliente.buscarRenavam(renavam);
-				if(editado != null)
-					System.out.println("Carro editado\n" + editado);
-				else
-					System.out.println("O carro não pode ser editado\n");
-			}
-			else
-				System.out.println("O renavam digitado não foi registado em nenhum carro.\n");
-		} catch (Exception e) {
-			System.err.println("Erro ao buscar carro: " + e.getMessage());
-			e.printStackTrace();
-		}
+	    System.out.print("Digite o renavam do carro que deseja editar:");
+	    long renavam = scanner.nextLong();
+	    scanner.nextLine(); // Consumindo a quebra de linha pendente
+
+	    try {
+	        System.out.println("buscando por renavam...\n");
+	        Registry registro = LocateRegistry.getRegistry("localhost", 50006);
+	        CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
+	        Carro buscado = stubObjRemotoCliente.buscarRenavam(renavam);
+	        if (buscado != null) {
+	            System.out.println(buscado);
+	            System.out.print("Digite o nome do carro:");
+	            String nome = scanner.nextLine();
+	            System.out.print("Digite o preço em R$ do carro:");
+	            double preco = lerPrecoFormatado();
+	            System.out.print("Digite o ano de fabricação do carro:");
+	            int ano = scanner.nextInt();
+	            System.out.print("Qual é a categoria do carro (?)\n[1] Economico\n[2] Intermediario\n[3] Executivo\nOpção:");
+	            int opcao = scanner.nextInt();
+	            Categoria categoria = null;
+	            switch (opcao) {
+	                case 1:
+	                    categoria = Categoria.economico;
+	                    break;
+	                case 2:
+	                    categoria = Categoria.intermediario;
+	                    break;
+	                case 3:
+	                    categoria = Categoria.executivo;
+	                    break;
+	                default:
+	                    System.out.println("Opção invalida");
+	                    editar();
+	            }
+	            Carro editado = stubObjRemotoCliente.editarCarro(renavam, nome, preco, categoria, ano);
+	            if (editado != null)
+	                System.out.println("Carro editado\n" + editado);
+	            else
+	                System.out.println("O carro não pode ser editado\n");
+	        } else
+	            System.out.println("O renavam digitado não foi registado em nenhum carro.\n");
+	    } catch (Exception e) {
+	        System.err.println("Erro ao buscar carro: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 	}
+
 
 	public static void menuCliente(boolean atualizado) throws NotBoundException {
 		if(atualizado == true) {
