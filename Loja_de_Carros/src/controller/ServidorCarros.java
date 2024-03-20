@@ -6,6 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import entity.Carro;
@@ -28,7 +29,7 @@ public class ServidorCarros implements CarroService {
 	        carros.add(new Carro(89031425773L,"Ford Ka Sedan SE 1.0 (Flex)",Categoria.intermediario,2019,52900.00));
 	        carros.add(new Carro(46793280131L,"Chevrolet Onix Plus 1.0",Categoria.intermediario, 2023,90000.00));
 	        carros.add(new Carro(62389574116L,"Renault Logan",Categoria.intermediario, 2023,64233.00));
-	        carros.add(new Carro(18974250363L," Toyota Etios X Plus 1.5 AT",Categoria.intermediario, 2021,72940.00));
+	        carros.add(new Carro(18974250363L,"Toyota Etios X Plus 1.5 AT",Categoria.intermediario, 2021,72940.00));
 	        carros.add(new Carro(54261983773L,"Toyota Corolla Altis Hybrid Premium",Categoria.executivo, 2024, 198890.00));
 	        carros.add(new Carro(37625891431L,"Honda Civic",Categoria.executivo, 2024, 259900.00));
 	        carros.add(new Carro(90847362188L,"Chevrolet Cruze Sedan",Categoria.executivo,2023,149990.00));
@@ -38,11 +39,15 @@ public class ServidorCarros implements CarroService {
 	        return carros;
 	    }
 	 
-	  @Override
+	 @Override
 	    public List<Carro> listarCarros() throws RemoteException {
 	        System.out.println("Listando carros...");
-	        return carros; 
+	        
+	        Collections.sort(carros, (carro1, carro2) -> carro1.getNome().compareTo(carro2.getNome()));
+	        
+	        return carros;
 	    }
+	  
 	@Override
 	public Carro buscarRenavam(long renavam) throws RemoteException {
 		for(int i = 0; i < carros.size();i++) {

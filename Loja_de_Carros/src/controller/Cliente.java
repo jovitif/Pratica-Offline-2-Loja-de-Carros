@@ -48,7 +48,7 @@ public class Cliente {
 					menuFuncionario(atualizado);
 
 				} else {
-					menuCliente();
+					menuCliente(atualizado);
 				}
 			} else {
 				System.out.println("Falha ao autenticar");
@@ -307,7 +307,7 @@ public class Cliente {
 		}
 	}
 
-	public static void menuCliente() throws NotBoundException {
+	public static void menuCliente(boolean atualizado) throws NotBoundException {
 		if(atualizado == true) {
 			System.out.println(user);	
 		}
@@ -321,21 +321,26 @@ public class Cliente {
 		Scanner scanner = new Scanner(System.in);
 		int opcao = scanner.nextInt();
 		switch (opcao) {
+	
 		case 1:
 			listar();
-			menuCliente();
+			atualizado = false;
+			menuCliente(atualizado);
 			break;
 		case 2:
 			buscar();
-			menuCliente();
+			atualizado = false;
+			menuCliente(atualizado);
 			break;
 		case 3:
 			quantidade();
-			menuCliente();
+			atualizado = false;
+			menuCliente(atualizado);
 			break;
 		case 4:	
 			comprar();
-			menuCliente();
+			atualizado = true;
+			menuCliente(atualizado);
 			break;
 		case 5:
 			System.out.println("Realizando logout...");

@@ -25,11 +25,12 @@ public class Gatway {
 		System.setProperty("java.security.policy", "java.policy");
 
 	}
+	
+
 
 	public static void main(String[] args) {
 		config();
 		try {
-			// Criar e registrar o ServidorAuth
 			ServidorAuth servidorAuth = new ServidorAuth();
 			UsuarioService skeletonAuth = (UsuarioService) UnicastRemoteObject.exportObject(servidorAuth, 0);
 			LocateRegistry.createRegistry(PORTA_AUTH);
@@ -37,7 +38,6 @@ public class Gatway {
 			registroAuth.bind("UsuarioService", skeletonAuth);
 			System.out.println("ServidorAuth pronto na porta " + PORTA_AUTH);
 
-			// Criar e registrar o ServidorCarro
 			ServidorCarros servidorCarro = new ServidorCarros();
 			CarroService skeletonCarro = (CarroService) UnicastRemoteObject.exportObject(servidorCarro, 0);
 			LocateRegistry.createRegistry(PORTA_CARRO);
