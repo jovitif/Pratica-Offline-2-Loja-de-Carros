@@ -1,14 +1,11 @@
-package controller;
+package Carros;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import entity.Carro;
-import entity.Categoria;
-import service.CarroService;
 
-public class ServidorCarros implements CarroService {
+public class ServidorCarros implements CarroInterface {
 	List<Carro> carros; 
 
 	public ServidorCarros() {
@@ -42,6 +39,8 @@ public class ServidorCarros implements CarroService {
 
 	@Override
 	public Carro buscarRenavam(long renavam) throws RemoteException {
+		System.out.println("Buscando carro...");
+
 		for (int i = 0; i < carros.size(); i++) {
 			if (carros.get(i).getRenavam() == renavam)
 				return carros.get(i);
@@ -51,11 +50,13 @@ public class ServidorCarros implements CarroService {
 
 	@Override
 	public int QntCarro() throws RemoteException {
+		System.out.println("Retornando quantidade de carros...");
 		return carros.size();
 	}
 
 	@Override
 	public Carro removerCarro(long renavam) throws RemoteException {
+		System.out.println("Removendo carro...");
 		for (int i = 0; i < carros.size(); i++) {
 			if (carros.get(i).getRenavam() == renavam) {
 				Carro carRemovido = carros.get(i);
@@ -67,20 +68,26 @@ public class ServidorCarros implements CarroService {
 	}
 
 	@Override
-	public String adicionarCarro(long renavam, String nome, double preco, Categoria categoria, int ano)
+	public Carro adicionarCarro(long renavam, String nome, double preco, Categoria categoria, int ano)
 			throws RemoteException {
+		System.out.println("Adicionando carro...");
+
 		for (int i = 0; i < carros.size(); i++) {
 			if (carros.get(i).getRenavam() == renavam)
-				return "O renavam digitado já foi utilizado\n";
+				//return "O renavam digitado já foi utilizado\n";
+				return null;
 		}
 		Carro carro = new Carro(renavam, nome, categoria, ano, preco);
 		carros.add(carro);
-		return "O carro foi adicionado: " + carro.toString();
+		//return "O carro foi adicionado: " + carro.toString();
+		return carro;
 	}
 
 	@Override
 	public Carro editarCarro(long renavam, String nome, double preco, Categoria categoria, int ano)
 			throws RemoteException {
+		System.out.println("Editando carro...");
+
 		for (int i = 0; i < carros.size(); i++) {
 			if (carros.get(i).getRenavam() == renavam) {
 				carros.get(i).setAnoFabricacao(ano);

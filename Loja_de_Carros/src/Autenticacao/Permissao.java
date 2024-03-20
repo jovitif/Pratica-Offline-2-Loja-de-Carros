@@ -1,4 +1,4 @@
-package entity;
+package Autenticacao;
 
 public enum Permissao {
 	cliente,

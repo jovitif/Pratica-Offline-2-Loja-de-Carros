@@ -1,8 +1,10 @@
-package entity;
+package Autenticacao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import Carros.Carro;
 
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;

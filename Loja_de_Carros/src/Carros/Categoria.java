@@ -1,4 +1,4 @@
-package entity;
+package Carros;
 
 public enum Categoria {
 	economico,

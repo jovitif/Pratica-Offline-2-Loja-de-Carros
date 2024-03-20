@@ -1,4 +1,4 @@
-package controller;
+package Main;
 
 import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
@@ -8,21 +8,25 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-import entity.Carro;
-import entity.Categoria;
-import entity.Permissao;
-import entity.Usuario;
-import service.CarroService;
-import service.UsuarioService;
+import Autenticacao.Permissao;
+import Autenticacao.Usuario;
+import Autenticacao.UsuarioInterface;
+import Carros.Carro;
+import Carros.CarroInterface;
+import Carros.Categoria;
 
 public class Cliente {
+	static final int portaAuth = 50005;
+	static final int portaCarro = 50006;
+	static Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
 	static Usuario user;
 	static String login;
 	static String senha;
 	static boolean atualizado = true;
-	static Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
-	static int portaAuth = 50005;
-	static int portaCarro = 50006;
+
+	public static void main(String[] args) {
+		menuLogin();
+	}
 
 	public static void menuLogin() {
 		System.out.print("Digite seu login:");
@@ -36,8 +40,8 @@ public class Cliente {
 		config();
 		try {
 			Registry registro = LocateRegistry.getRegistry("localhost", portaAuth);
-			UsuarioService stubObjRemotoCliente = (UsuarioService) registro.lookup("UsuarioService");
-			user = stubObjRemotoCliente.autenticado(login, senha);
+			UsuarioInterface conexaoRMI = (UsuarioInterface) registro.lookup("UsuarioService");
+			user = conexaoRMI.autenticado(login, senha);
 			if (user != null) {
 				if (user.getPermissao().equals(Permissao.funcionario)) {
 					menuFuncionario(atualizado);
@@ -66,8 +70,8 @@ public class Cliente {
 	public static void listar() {
 		try {
 			Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
-			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			List<Carro> listaCarros = stubObjRemotoCliente.listarCarros();
+			CarroInterface conexaoRMI = (CarroInterface) registro.lookup("CarroService");
+			List<Carro> listaCarros = conexaoRMI.listarCarros();
 			for (Carro carro : listaCarros) {
 				System.out.println(carro.toString());
 			}
@@ -81,8 +85,8 @@ public class Cliente {
 	public static Carro buscar(long renavam) {
 		try {
 			Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
-			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			Carro buscado = stubObjRemotoCliente.buscarRenavam(renavam);
+			CarroInterface conexaoRMI = (CarroInterface) registro.lookup("CarroService");
+			Carro buscado = conexaoRMI.buscarRenavam(renavam);
 			return buscado;
 		} catch (Exception e) {
 			System.err.println("Erro ao buscar carro: " + e.getMessage());
@@ -94,8 +98,8 @@ public class Cliente {
 	public static void quantidade() {
 		try {
 			Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
-			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			System.out.println("\nO sistema possui " + stubObjRemotoCliente.QntCarro() + " carros\n");
+			CarroInterface conexaoRMI = (CarroInterface) registro.lookup("CarroService");
+			System.out.println("\nO sistema possui " + conexaoRMI.QntCarro() + " carros\n");
 		} catch (Exception e) {
 			System.err.println("Erro ao buscar carro: " + e.getMessage());
 			e.printStackTrace();
@@ -109,8 +113,8 @@ public class Cliente {
 			long renavam = scanner.nextLong();
 			Carro comprado = buscar(renavam);
 			Registry registro = LocateRegistry.getRegistry("localhost", portaAuth);
-			UsuarioService stubObjRemotoCliente2 = (UsuarioService) registro.lookup("UsuarioService");
-			stubObjRemotoCliente2.comprarCarro(comprado, user.getLogin());
+			UsuarioInterface conexaoRMI2 = (UsuarioInterface) registro.lookup("UsuarioService");
+			conexaoRMI2.comprarCarro(comprado, user.getLogin());
 			remover(renavam);
 			conectar();
 		} catch (InputMismatchException e) {
@@ -122,43 +126,47 @@ public class Cliente {
 	}
 
 	public static void adicionar() {
-	    System.out.print("\nDigite o número do Renavam:");
-	    long renavam = scanner.nextLong();
-	    scanner.nextLine();
-	    System.out.print("Digite o nome do carro:");
-	    String nome = scanner.nextLine();
-	    System.out.print("Digite o preço em R$ do carro:");
-	    double preco = lerPrecoFormatado();
-	    System.out.print("Digite o ano de fabricação do carro:");
-	    int ano = scanner.nextInt();
-	    System.out.print("Qual é a categoria do carro (?)\n[1] Economico\n[2] Intermediario\n[3] Executivo\nOpção:");
-	    int opcao = scanner.nextInt();
-	    Categoria categoria = null;
-	    switch (opcao) {
-	        case 1:
-	            categoria = Categoria.economico;
-	            break;
-	        case 2:
-	            categoria = Categoria.intermediario;
-	            break;
-	        case 3:
-	            categoria = Categoria.executivo;
-	            break;
-	        default:
-	            System.out.println("Opção invalida");
-	            adicionar();
-	    }
-	    try {
-	        Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
-	        CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-	        String saida = stubObjRemotoCliente.adicionarCarro(renavam, nome, preco, categoria, ano);
-	        System.out.println(saida);
-	    } catch (Exception e) {
-	        System.err.println("Erro ao buscar carro: " + e.getMessage());
-	        e.printStackTrace();
-	    }
-	}
+		System.out.print("\nDigite o número do Renavam:");
+		long renavam = scanner.nextLong();
+		scanner.nextLine();
+		System.out.print("Digite o nome do carro:");
+		String nome = scanner.nextLine();
+		System.out.print("Digite o preço em R$ do carro:");
+		double preco = lerPrecoFormatado();
+		System.out.print("Digite o ano de fabricação do carro:");
+		int ano = scanner.nextInt();
+		System.out.print("Qual é a categoria do carro (?)\n[1] Economico\n[2] Intermediario\n[3] Executivo\nOpção:");
+		int opcao = scanner.nextInt();
+		Categoria categoria = null;
+		switch (opcao) {
+		case 1:
+			categoria = Categoria.economico;
+			break;
+		case 2:
+			categoria = Categoria.intermediario;
+			break;
+		case 3:
+			categoria = Categoria.executivo;
+			break;
+		default:
+			System.out.println("Opção invalida");
+			adicionar();
+		}
+		try {
+			Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
+			CarroInterface conexaoRMI = (CarroInterface) registro.lookup("CarroService");
+			Carro saida = conexaoRMI.adicionarCarro(renavam, nome, preco, categoria, ano);
+			if (saida != null)
+				System.out.println("O carro foi adicionado: " + saida + "\n");
+			else
+				System.out.println("Já existe carro com esse renavam\n");
 
+			System.out.println(saida);
+		} catch (Exception e) {
+			System.err.println("Erro ao buscar carro: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 	private static double lerPrecoFormatado() {
 		while (true) {
@@ -174,9 +182,9 @@ public class Cliente {
 	public static void remover(long renavam) {
 		try {
 			Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
-			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			Carro removido = stubObjRemotoCliente.removerCarro(renavam);
-			if(removido !=null)
+			CarroInterface conexaoRMI = (CarroInterface) registro.lookup("CarroService");
+			Carro removido = conexaoRMI.removerCarro(renavam);
+			if (removido != null)
 				System.out.println("Carro removido: " + removido);
 			else
 				System.out.println("\nCarro não encontrado\n");
@@ -280,8 +288,8 @@ public class Cliente {
 		try {
 			System.out.println("buscando por renavam...\n");
 			Registry registro = LocateRegistry.getRegistry("localhost", portaCarro);
-			CarroService stubObjRemotoCliente = (CarroService) registro.lookup("CarroService");
-			Carro buscado = stubObjRemotoCliente.buscarRenavam(renavam);
+			CarroInterface conexaoRMI = (CarroInterface) registro.lookup("CarroService");
+			Carro buscado = conexaoRMI.buscarRenavam(renavam);
 			if (buscado != null) {
 				System.out.println(buscado);
 				System.out.print("Digite o nome do carro:");
@@ -308,7 +316,7 @@ public class Cliente {
 					System.out.println("Opção invalida");
 					editar();
 				}
-				Carro editado = stubObjRemotoCliente.editarCarro(renavam, nome, preco, categoria, ano);
+				Carro editado = conexaoRMI.editarCarro(renavam, nome, preco, categoria, ano);
 				if (editado != null)
 					System.out.println("Carro editado\n" + editado);
 				else
@@ -389,9 +397,5 @@ public class Cliente {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		menuLogin();
 	}
 }
